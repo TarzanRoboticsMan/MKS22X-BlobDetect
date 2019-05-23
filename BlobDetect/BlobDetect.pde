@@ -7,10 +7,13 @@ void setup() {
   size(320, 240);
   cam = new Capture(this, width, height, 30); //320, 240//Minimum H/W seems to be 79/2 before weird error appears
   cam.start();
-  
+}
+
+void setTarget(){
   //Set up color variables
-  targColor = color(254,0,0);
+  targColor = get(width/2,height/2);
   targHue = hue(targColor);
+  System.out.println(targHue);
 }
 
 void draw() {
@@ -22,8 +25,8 @@ void draw() {
 }
 
 boolean isTarget(int x, int y){
-  color data = get(x,y));
-  return hue(data)-targHue<30;
+  color data = get(x,y);
+  return Math.abs(hue(data)-targHue)<30;
 }
 
 void play(){
