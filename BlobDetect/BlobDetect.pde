@@ -2,11 +2,15 @@ import processing.video.*;
 Capture cam;
 color targColor;
 float targHue;
+int sec;
 
 void setup() {
   size(320, 240);
   cam = new Capture(this, width, height, 30); //320, 240//Minimum H/W seems to be 79/2 before weird error appears
   cam.start();
+  while(!cam.available()) delay(10);//Wait for cam available
+  drawCam(); //Paint the background
+  setTarget(); //Use the display to pull targColor
 }
 
 void setTarget(){
@@ -17,11 +21,15 @@ void setTarget(){
 }
 
 void draw() {
+  drawCam();
+  //isTarget(0,0);
+}
+
+void drawCam(){
   if(cam.available()) {
     cam.read();
   }
   image(cam, 0,0);
-  //isTarget(0,0);
 }
 
 boolean isTarget(int x, int y){
