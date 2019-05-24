@@ -10,13 +10,13 @@ void setup() {
 }
 
 void keyPressed() {
-  if (!key == ' ') return;
+  if (key != ' ') return;
   targeting=true;
   sec = second();
 }
 
 void drawTarget(){
-  stroke(255,0.5); noFill();
+  stroke(255); noFill();
   ellipse(width/2,height/2, 10,10);
   stroke(0,1.0); fill(255);
 }
