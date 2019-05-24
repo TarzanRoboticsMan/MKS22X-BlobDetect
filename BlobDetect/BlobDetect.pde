@@ -1,35 +1,46 @@
 import processing.video.*;
 Capture cam;
-color targColor;
-float targHue;
-int sec;
+color targColor; float targHue;
+boolean targeting; int sec;
 
 void setup() {
   size(320, 240);
   cam = new Capture(this, width, height, 30); //320, 240//Minimum H/W seems to be 79/2 before weird error appears
   cam.start();
-  while(!cam.available()) delay(10);//Wait for cam available
-  drawCam(); //Paint the background
-  setTarget(); //Use the display to pull targColor
+}
+
+void keyPressed() {
+  if (!key == ' ') return;
+  targeting=true;
+  sec = second();
+}
+
+void drawTarget(){
+  stroke(255,0.5); noFill();
+  ellipse(width/2,height/2, 10,10);
+  stroke(0,1.0); fill(255);
 }
 
 void setTarget(){
   //Set up color variables
   targColor = get(width/2,height/2);
   targHue = hue(targColor);
-  System.out.println(targHue);
+  System.out.println("hue "+targHue); 
+  System.out.println("sat "+saturation(targColor)); System.out.println("bright "+brightness(targColor));
 }
 
 void draw() {
-  drawCam();
-  //isTarget(0,0);
-}
-
-void drawCam(){
   if(cam.available()) {
     cam.read();
   }
   image(cam, 0,0);
+  if (targeting){
+    drawTarget();
+    if(Math.abs(sec-second())>1){
+      setTarget(); targeting = false;
+    }
+  }
+  //isTarget(0,0);
 }
 
 boolean isTarget(int x, int y){
@@ -62,4 +73,12 @@ void play(){
   c = color(50, 55, 100);  // Update 'c' with new color
   fill(c);  // Use updated 'c' as fill color
   rect(55, 10, 45, 80);  // Draw right rect
+  
+  //Garbage initalization code
+  while(!cam.available()) delay(10);//Wait for cam available
+  for(int x=0;x<100;x++){
+    cam.read(); image(cam,0,0); //Paint the background
+    delay(10);
+  }
+  setTarget(); //Use the display to pull targColor
 }
