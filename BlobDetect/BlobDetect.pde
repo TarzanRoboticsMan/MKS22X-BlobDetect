@@ -2,11 +2,13 @@ import processing.video.*;
 Capture cam;
 color targColor; float targHue;
 boolean targeting; int sec;
+BlobInput input; 
 
 void setup() {
   size(320, 240);
   cam = new Capture(this, width, height, 30); //320, 240//Minimum H/W seems to be 79/2 before weird error appears
   cam.start();
+  input = new BlobInput();
 }
 
 void keyPressed() {
@@ -15,18 +17,11 @@ void keyPressed() {
   sec = second();
 }
 
-void drawTarget(){
-  stroke(255); noFill();
+void drawTarget(boolean acquired){
+  if (acquired){stroke(input.targColor); fill(input.targColor);}
+  else         {stroke(255);             noFill();}
   ellipse(width/2,height/2, 10,10);
-  stroke(0,1.0); fill(255);
-}
-
-void setTarget(){
-  //Set up color variables
-  targColor = get(width/2,height/2);
-  targHue = hue(targColor);
-  System.out.println("hue "+targHue); 
-  System.out.println("sat "+saturation(targColor)); System.out.println("bright "+brightness(targColor));
+  stroke(0); fill(255);
 }
 
 void draw() {
@@ -35,17 +30,18 @@ void draw() {
   }
   image(cam, 0,0);
   if (targeting){
-    drawTarget();
+    drawTarget(false);//see through inner circle
     if(Math.abs(sec-second())>1){
-      setTarget(); targeting = false;
+      input = new BlobInput(); targeting = false; sec=second();
     }
   }
-  //isTarget(0,0);
+  else if(Math.abs(sec-second())<1){
+    drawTarget(true);
+  }
 }
 
 boolean isTarget(int x, int y){
-  color data = get(x,y);
-  return Math.abs(hue(data)-targHue)<30;
+  int data = get(x,y); return Math.abs(hue(data)-targHue)<30;
 }
 
 void play(){
@@ -80,5 +76,5 @@ void play(){
     cam.read(); image(cam,0,0); //Paint the background
     delay(10);
   }
-  setTarget(); //Use the display to pull targColor
+  //setTarget(); //Use the display to pull targColor
 }
