@@ -17,12 +17,19 @@ void keyPressed() {
   sec = second();
 }
 
-void drawTarget(boolean acquired){
-  if (acquired){stroke(input.targColor); fill(input.targColor);}
-  else         {stroke(255);             noFill();}
+void drawSearching(){
+  stroke(255); noFill();
   ellipse(width/2,height/2, 10,10);
   stroke(0); fill(255);
 }
+void drawAcquired(){
+  colorMode(HSB);
+  noStroke(); fill(input.targHue,saturation(input.targColor),255);
+  ellipse(width/2,height/2,15,15);
+  fill(input.targColor);
+  ellipse(width/2,height/2,10,10);
+}
+  
 
 void draw() {
   if(cam.available()) {
@@ -30,13 +37,13 @@ void draw() {
   }
   image(cam, 0,0);
   if (targeting){
-    drawTarget(false);//see through inner circle
+    drawSearching();//see through inner circle
     if(Math.abs(sec-second())>1){
       input = new BlobInput(); targeting = false; sec=second();
     }
   }
   else if(Math.abs(sec-second())<1){
-    drawTarget(true);
+    drawAcquired();
   }
 }
 
