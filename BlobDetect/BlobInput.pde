@@ -1,4 +1,4 @@
-public class BlobInput{
+class BlobInput{
   private float x,y;
   public final color targColor; 
   public final float targHue;

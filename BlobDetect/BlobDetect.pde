@@ -1,7 +1,7 @@
 import processing.video.*;
 Capture cam;
 boolean targeting,recolor; int sec;
-BlobInput input; 
+BlobInput input;
 
 void setup() {
   size(320, 240);
@@ -64,8 +64,8 @@ void draw() {
 boolean isTarget(int x, int y){
   int data = get(x,y); 
   return Math.abs(hue(data)-input.targHue)<50 &&
-         saturation(data)>saturation(input.targColor)/5; /*&& //isTarget if at least 1/5th as saturated
-         Math.abs(brightness(data)-brightness(input.targColor))<30;*/
+         saturation(data)>saturation(input.targColor)/2 && //isTarget if at least 1/2 as saturated
+         brightness(data)>brightness(input.targColor)/2;
 }
 
 void play(){
