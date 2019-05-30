@@ -1,6 +1,6 @@
 import processing.video.*;
 Capture cam;
-boolean targeting; int sec;
+boolean targeting,recolor; int sec;
 BlobInput input; 
 
 void setup() {
@@ -11,9 +11,11 @@ void setup() {
 }
 
 void keyPressed() {
-  if (key != ' ') return;
-  targeting=true;
-  sec = second();
+  if (key == 's') recolor=!recolor;//System.out.println(input.size());
+  if (key == ' ') {
+    targeting=true;
+    sec = second();
+  }
 }
 
 void drawSearching(){
@@ -27,6 +29,15 @@ void drawAcquired(){
   ellipse(width/2,height/2,15,15);
   fill(input.targColor);
   ellipse(width/2,height/2,10,10);
+}
+
+void recolor(){
+  for(int x = 0;x<width;x++){
+    for(int y = 0; y<height; y++){
+      if(isTarget(x,y)) set(x,y,color(0));
+      else set(x,y,color(255));
+    }
+  }
 }
   
 
@@ -48,17 +59,18 @@ void draw() {
   else if(Math.abs(sec-second())<1){
     drawAcquired();
   }
+  if(recolor)recolor();
 }
 boolean isTarget(int x, int y){
   int data = get(x,y); 
-  return Math.abs(hue(data)-input.targHue)<30 &&
-         Math.abs(saturation(data)-saturation(input.targColor))<30 &&
-         Math.abs(brightness(data)-brightness(input.targColor))<30);
+  return Math.abs(hue(data)-input.targHue)<50 &&
+         saturation(data)>saturation(input.targColor)/5; /*&& //isTarget if at least 1/5th as saturated
+         Math.abs(brightness(data)-brightness(input.targColor))<30;*/
 }
 
 void play(){
   color c1 = color(204, 153, 0);
-  color c2 = #FFCC00;
+  color c2 = #FFCC00; //<>//
   noStroke();
   fill(c1);
   rect(0, 0, 25, 100);
