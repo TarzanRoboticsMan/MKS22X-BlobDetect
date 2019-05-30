@@ -35,7 +35,11 @@ void draw() {
   if(cam.available()) {
     cam.read();
   }
-  image(cam, 0,0);
+  pushMatrix(); //Invert image so it appears normal
+  scale(-1,1);
+  image(cam, -width,0);
+  popMatrix(); //Back to normal for drawing purposes
+  
   if (targeting){
     drawSearching();//see through inner circle
     if(Math.abs(sec-second())>1){
