@@ -1,6 +1,5 @@
 import processing.video.*;
 Capture cam;
-color targColor; float targHue;
 boolean targeting; int sec;
 BlobInput input; 
 
@@ -52,7 +51,10 @@ void draw() {
 }
 
 boolean isTarget(int x, int y){
-  int data = get(x,y); return Math.abs(hue(data)-targHue)<30;
+  int data = get(x,y); 
+  return Math.abs(hue(data)-input.targHue)<30 &&
+         Math.abs(saturation(data)-saturation(input.targColor))<30 &&
+         Math.abs(brightness(data)-brightness(input.targColor))<30;
 }
 
 void play(){
