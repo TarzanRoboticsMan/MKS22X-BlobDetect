@@ -1,7 +1,7 @@
 class BlobInput{
   private float x,y;
-  public final color targColor; 
-  public final float targHue;
+  public color targColor; 
+  public float targHue;
   
   public BlobInput(){
     targColor = get(width/2,height/2);
@@ -17,6 +17,8 @@ class BlobInput{
   }
   public float getX(){return x;}
   public float getY(){return y;}
+  /*public color targColor(){return new color(hue(targColor),saturation(targColor),brightness(targColor));}
+  public float targHue(){return targHue;}*/
   
   public int size(){
     //loadPixels();
