@@ -2,16 +2,27 @@ import processing.video.*;
 Capture cam;
 boolean targeting,recolor; int sec;
 BlobInput input;
+float s,b,h; char mode;
 
 void setup() {
   size(320, 240);
   cam = new Capture(this, width, height, 30); //320, 240//Minimum H/W seems to be 79/2 before weird error appears
   cam.start();
   input = new BlobInput();
+  s=3.5;b=2.0;h=50.0;
+}
+
+void adjust(int x){
+  if(mode=='s') s+=x*0.10;
+  else if(mode=='b') b+=x*0.1;
+  else if(mode=='h') h+=x*1.0;
+  println("s: "+s + " b: "+b + " h: "+h);
 }
 
 void keyPressed() {
-  if (key == 's') recolor=!recolor;//System.out.println(input.size());
+  if (key == 'a') recolor=!recolor;//System.out.println(input.size());
+  if (key == 's' || key == 'b' || key == 'h') mode = key; //Change filter value to adjust
+  if (key == '[') adjust(-1); if (key == ']') adjust(1);  //Adjust value stored in mode
   if (key == ' ') {
     targeting=true;
     sec = second();
@@ -63,9 +74,9 @@ void draw() {
 }
 boolean isTarget(int x, int y){
   int data = get(x,y); 
-  return Math.abs(hue(data)-input.targHue)<50 &&
-         saturation(data)>saturation(input.targColor)/2 && //isTarget if at least 1/2 as saturated
-         brightness(data)>brightness(input.targColor)/2;
+  return Math.abs(hue(data)-input.targHue)<h &&
+         saturation(data)>saturation(input.targColor)/s && //isTarget if at least 1/2 as saturated
+         brightness(data)>brightness(input.targColor)/b;
 }
 
 void play(){
