@@ -1,6 +1,6 @@
 import processing.video.*;
 Capture cam;
-boolean targeting,recolor; int sec;
+boolean targeting,recolor; int millis;
 BlobInput input;
 float s,b,h; char mode;
 
@@ -9,23 +9,23 @@ void setup() {
   cam = new Capture(this, width, height, 30); //320, 240//Minimum H/W seems to be 79/2 before weird error appears
   cam.start();
   input = new BlobInput();
-  s=3.5;b=2.0;h=50.0;
+  h=15.0;s=2.0;b=3.0;
 }
 
 void adjust(int x){
-  if(mode=='s') s+=x*0.10;
+  if(mode=='h') h+=x*1.0;
+  else if(mode=='s') s+=x*0.1;
   else if(mode=='b') b+=x*0.1;
-  else if(mode=='h') h+=x*1.0;
-  println("s: "+s + " b: "+b + " h: "+h);
+  println("h: "+h + " s: "+s + " b: "+b);
 }
 
 void keyPressed() {
   if (key == 'a') recolor=!recolor;//System.out.println(input.size());
-  if (key == 's' || key == 'b' || key == 'h') mode = key; //Change filter value to adjust
+  if (key == 'h' || key == 's' || key == 'b') mode = key; //Change filter value to adjust
   if (key == '[') adjust(-1); if (key == ']') adjust(1);  //Adjust value stored in mode
   if (key == ' ') {
     targeting=true;
-    sec = second();
+    millis = millis();
   }
 }
 
@@ -60,23 +60,23 @@ void draw() {
   scale(-1,1);
   image(cam, -width,0);
   popMatrix(); //Back to normal for drawing purposes
-  
   if (targeting){
     drawSearching();//see through inner circle
-    if(Math.abs(sec-second())>1){
-      input = new BlobInput(); targeting = false; sec=second();
+    if(Math.abs(millis-millis())>500){
+      input = new BlobInput(); targeting = false; millis=millis();
     }
   }
-  else if(Math.abs(sec-second())<1){
+  if(recolor)recolor();
+  
+  if(!targeting && Math.abs(millis-millis())<1000){
     drawAcquired();
   }
-  if(recolor)recolor();
 }
 boolean isTarget(int x, int y){
-  int data = get(x,y); 
-  return Math.abs(hue(data)-input.targHue)<h &&
-         saturation(data)>saturation(input.targColor)/s && //isTarget if at least 1/2 as saturated
-         brightness(data)>brightness(input.targColor)/b;
+  int data = get(x,y); int  hueDiff = Math.abs(hue(data)-input.targHue);
+  return (hueDiff<h || 359-hueDiff<h )&& //accounts for hue diff accros the 360 mark
+         saturation(data)>saturation(input.targColor)/s && //isTarget if at least 1/s as saturated
+         brightness(data)>brightness(input.targColor)/b; //if at least 1/b as bright
 }
 
 void play(){
