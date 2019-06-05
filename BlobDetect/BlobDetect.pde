@@ -15,6 +15,7 @@ void setup() {
   //hockey stuff
   goalH=height/4; goalW=10;
   diameter = 50.0;
+  ballX=width/2; ballY=height/2;
 }
 
 void adjust(int x){
@@ -26,7 +27,10 @@ void adjust(int x){
 
 void keyPressed() {
   if (key == 'a') recolor=!recolor;//System.out.println(input1.size());
-  if (key == ' ') hockeyTime=!hockeyTime;
+  if (key == ' ') {
+    hockeyTime=!hockeyTime;
+    ballX=width/2; ballY=height/2;
+  }
   if (key == 'h' || key == 's' || key == 'b') mode = key; //Change filter value to adjust
   if (key == '[') adjust(-1); if (key == ']') adjust(1);  //Adjust value stored in mode
   if (key == '0'|| key == '1') {
@@ -90,6 +94,7 @@ void draw() {
   
   if(hockeyTime){
     fill(0,50); rect(0,0,width,height);
+    drawGoals();
     
     for(int i=0;i<inputs.size();i++){
       inputs.get(i).puck.update();
