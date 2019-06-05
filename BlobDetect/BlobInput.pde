@@ -2,7 +2,7 @@ class BlobInput{
   private float x,y;
   public color targColor; 
   public float targHue;
-  boolean targeting; int millis;
+  boolean targeting,hitting; int millis;
   public Pucker puck;
   
   public BlobInput(){
@@ -11,6 +11,7 @@ class BlobInput{
     System.out.println(this);
     x=width/2; y=height/2;
     puck = new Pucker(this);
+    hitting=true;
   }
   
   public String toString(){

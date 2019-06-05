@@ -86,6 +86,7 @@ void draw() {
   if(recolor)recolor();
   
   for(int i=0;i<inputs.size();i++){
+    if(!inputs.get(i).hitting&&millis()-inputs.get(i).millis>500) inputs.get(i).hitting=true;
     if(!inputs.get(i).targeting && Math.abs(inputs.get(i).millis-millis())<1000){
     drawAcquired(inputs.get(i));
     }
@@ -101,7 +102,9 @@ void draw() {
       inputs.get(i).puck.drawPucker();
       
       float d=distance(inputs.get(i).getX(),inputs.get(i).getY());
-      if (d<diameter*3/2){
+      //println(d);
+      if (inputs.get(i).hitting && d<diameter*3/4){
+        inputs.get(i).hitting=false; inputs.get(i).millis=millis();
         double xVel=speed*Math.cos(rad);
         double yVel=speed*Math.sin(rad);
         double xImp = inputs.get(i).puck.xV*(ballX-inputs.get(i).puck.x)/d;

@@ -14,6 +14,7 @@ public class Pucker{
     xV=x-lastX;yV=y-lastY;
   }
   public void drawPucker(){
+    ellipseMode(CENTER);
     fill(input.targColor);
     ellipse(x,y,diameter,diameter);
   }
