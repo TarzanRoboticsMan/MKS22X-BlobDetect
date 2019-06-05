@@ -3,12 +3,14 @@ class BlobInput{
   public color targColor; 
   public float targHue;
   boolean targeting; int millis;
+  public Pucker puck;
   
   public BlobInput(){
     targColor = get(width/2,height/2);
     targHue = hue(targColor);
     System.out.println(this);
     x=width/2; y=height/2;
+    puck = new Pucker(this);
   }
   
   public String toString(){
@@ -32,6 +34,8 @@ class BlobInput{
       }
     }
     x=xTot/ans;y=yTot/ans;
+    targColor = get((int)x,(int)y);
+    targHue = hue(targColor);
     return ans;
   }
   private int sizeUR(int x, int y){ //dead methods

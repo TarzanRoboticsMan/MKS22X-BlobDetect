@@ -1,11 +1,11 @@
 import processing.video.*;
 Capture cam;
-boolean recolor;
+boolean recolor,hockeyTime;
 ArrayList<BlobInput> inputs;
 float s,b,h; char mode;
 
 void setup() {
-  size(320, 240);
+  size(640, 480);//size(320, 240);
   cam = new Capture(this, width, height, 30); //320, 240//Minimum H/W seems to be 79/2 before weird error appears
   cam.start();
   inputs = new ArrayList<BlobInput>();
@@ -87,7 +87,8 @@ void draw() {
     inputs.get(i).size();
   }
   
-  //fill(255,0,0);  ellipse(input.getX(),input.getY(),5,5);
+  if(hockeyTime){
+  }
 }
 
 boolean isTarget(int x, int y, BlobInput input){

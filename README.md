@@ -27,4 +27,7 @@ June 2nd:
   Just research.
 June 3rd:
   Overhauled finding x and y coordinates by using my isTarget method and not iterating from a single point. Basically, I made the isTarget method good enough to just take the average of those pixels without worrying about recursively checking if they're in a single "blob" of the screen
-June 4th: Began overhaul of adding a second input, by changing all my methods to pull inputs out of an array list
+June 4th:
+  Began overhaul of adding a second input, by changing all my methods to pull inputs out of an array list.
+June 5th:
+  Added automatic color updating based on x,y coordinates to the BlobInput. Each BlobInput also has its own hockey pucker now.
