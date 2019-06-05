@@ -1,6 +1,20 @@
-# MKS22X-BlobDetect
-Final Project, June 2019 APCS
+## MKS22X-BlobDetect
+# BlobDetect
+### Final Project, June 2019 APCS
+### By Coby Sontag
 
+Welcome to BlobDetect, the scrappy underdog to computer vision. The controls are simple - press keys '0' and '1' to assign the BlobInputs to the objects currently in the center of the screen.
+Debugging and visual controls:
+|Control|Use                                   |
+|------:|--------------------------------------|
+|      h|Sets Hue to be adjusted, increment=1  |
+|      s|Sets Saturation to be adjusted, inc=.1|
+|      b|Sets Brightness to be adjusted, inc=.1|
+|      [|Adjusts target value by 0.1           |
+|      ]|Adjusts target value by -0.1          |
+|      a|Enter black and white isTarget mode   |
+---
+### Dev Log
 May 20th:
   Established video capabilities on my MacBook and discovered bounds of sizing the video
 May 21st:
@@ -30,4 +44,4 @@ June 3rd:
 June 4th:
   Began overhaul of adding a second input, by changing all my methods to pull inputs out of an array list.
 June 5th:
-  Added automatic color updating based on x,y coordinates to the BlobInput. Each BlobInput also has its own hockey pucker now.
+  Added automatic color updating based on x,y coordinates to the BlobInput. Each BlobInput also has its own hockey pucker now. Added in movement constraints for the hockey puck "ball"

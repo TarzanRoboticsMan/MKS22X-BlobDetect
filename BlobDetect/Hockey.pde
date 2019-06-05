@@ -1,5 +1,4 @@
-int diameter = 50;
-int ballX,ballY;
+float diameter = 50.0;
 public class Pucker{
   int x,y,lastX,lastY;
   BlobInput input; 
@@ -18,4 +17,9 @@ public class Pucker{
   }
 }
 
-//public void
+int goalH; int goalW;
+public void drawGoals(){
+  fill(255); rectMode(CORNER);
+  rect(0,(height-goalH)/2,goalW,goalH);
+  rect(width-goalW,(height-goalH)/2,goalW,goalH);
+}

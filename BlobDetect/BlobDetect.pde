@@ -11,6 +11,7 @@ void setup() {
   inputs = new ArrayList<BlobInput>();
   inputs.add(new BlobInput()); inputs.add(new BlobInput());
   h=15.0;s=2.0;b=3.0;
+  goalH=height/4; goalW=10;
 }
 
 void adjust(int x){
@@ -22,12 +23,9 @@ void adjust(int x){
 
 void keyPressed() {
   if (key == 'a') recolor=!recolor;//System.out.println(input1.size());
+  if (key == ' ') hokceyTime=!hokceyTime;
   if (key == 'h' || key == 's' || key == 'b') mode = key; //Change filter value to adjust
   if (key == '[') adjust(-1); if (key == ']') adjust(1);  //Adjust value stored in mode
-  if (key == ' ') {
-    inputs.get(0).targeting=true;
-    inputs.get(0).millis = millis();
-  }
   if (key == '0'|| key == '1') {
     int index=0; if(key == '1') index=1;
     inputs.get(index).targeting=true;
@@ -88,6 +86,14 @@ void draw() {
   }
   
   if(hockeyTime){
+    if(speed>20) speed=20.0; //Max speed
+    if(speed>0) speed*=.99; //Speed decay
+    ballX += speed*Math.cos(rad);
+    ballY += speed*Math.sin(rad);
+    if(ballY-diameter/2<=0 && Math.sin(rad)>0) rad=0-rad;
+    if(ballY+diameter/2>=height && Math.sin(rad)<0) rad=0-rad;
+    if(ballX-diameter/2<=0 && Math.cos(rad)<0) rad=3.1415-rad;
+    if(ballX-diameter/2>=width && Math.cos(rad)>0) rad=3.1415-rad;
   }
 }
 
