@@ -26,16 +26,19 @@ class BlobInput{
   public int size(){
     //loadPixels();
     int xTot=0; int yTot=0; int ans=1; //to avoid division by 0
-    for(int x=0; x<width;x++){
-      for(int y=0; y<height;y++){
-        if (isTarget(x,y,this)){
-          xTot+=x; yTot+=y; ans++;
+    for(int xx=0; xx<width;xx++){
+      for(int yy=0; yy<height;yy++){
+        if (isTarget(xx,yy,this)){
+          xTot+=xx; yTot+=yy; ans++;
         }
       }
     }
-    x=xTot/ans;y=yTot/ans;
-    targColor = get((int)x,(int)y);
-    targHue = hue(targColor);
+    if(Math.abs(xTot/ans-x)>20) x=(2*x+xTot/ans)/3;
+    else x=xTot/ans;
+    if(Math.abs(xTot/ans-x)>20) x=(2*x+xTot/ans)/3;
+    else y=yTot/ans;
+    /*targColor = get((int)x,(int)y);
+    targHue = hue(targColor);*/
     return ans;
   }
   private int sizeUR(int x, int y){ //dead methods

@@ -3,7 +3,7 @@
 ### Final Project, June 2019 APCS
 ### By Coby Sontag
 
-Welcome to BlobDetect, the scrappy underdog to computer vision. The controls are simple - press keys '0' and '1' to assign the BlobInputs to the objects currently in the center of the screen.
+Welcome to BlobDetect, the scrappy underdog to computer vision. The controls are simple - press keys '0' and '1' to assign the BlobInputs to the objects currently in the center of the screen. A enters visualizer, and H enters the prototype hockey mode
 Debugging and visual controls:
 |Control|Use                                   |
 |------:|--------------------------------------|

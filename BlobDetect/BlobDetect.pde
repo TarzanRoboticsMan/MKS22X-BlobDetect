@@ -29,7 +29,7 @@ void keyPressed() {
   if (key == 'a') recolor=!recolor;//System.out.println(input1.size());
   if (key == ' ') {
     hockeyTime=!hockeyTime;
-    ballX=width/2; ballY=height/2;
+    ballX=width/2; ballY=height/2; speed=0;
   }
   if (key == 'h' || key == 's' || key == 'b') mode = key; //Change filter value to adjust
   if (key == '[') adjust(-1); if (key == ']') adjust(1);  //Adjust value stored in mode
@@ -93,7 +93,7 @@ void draw() {
   }
   
   if(hockeyTime){
-    fill(0,50); rect(0,0,width,height);
+    fill(0,200); rect(0,0,width,height);
     drawGoals();
     
     for(int i=0;i<inputs.size();i++){
@@ -116,10 +116,10 @@ void draw() {
     if(speed>0) speed*=.99; //Speed decay
     ballX += speed*Math.cos(rad);
     ballY += speed*Math.sin(rad);
-    if(ballY-diameter/2<=0 && Math.sin(rad)>0) rad=0-rad;
-    if(ballY+diameter/2>=height && Math.sin(rad)<0) rad=0-rad;
+    if(ballY-diameter/2<=0 && Math.sin(rad)<0) rad=0-rad;
+    if(ballY+diameter/2>=height && Math.sin(rad)>0) rad=0-rad;
     if(ballX-diameter/2<=0 && Math.cos(rad)<0) rad=3.1415-rad;
-    if(ballX-diameter/2>=width && Math.cos(rad)>0) rad=3.1415-rad;
+    if(ballX+diameter/2>=width && Math.cos(rad)>0) rad=3.1415-rad;
     drawBall();
   }
 }
