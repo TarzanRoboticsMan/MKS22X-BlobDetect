@@ -2,6 +2,7 @@ class BlobInput{
   private float x,y;
   public color targColor; 
   public float targHue;
+  boolean targeting; int millis;
   
   public BlobInput(){
     targColor = get(width/2,height/2);
@@ -22,16 +23,25 @@ class BlobInput{
   
   public int size(){
     //loadPixels();
-    return sizeUR((int)x,(int)y) +  sizeDL((int)x,(int)y);
+    int xTot=0; int yTot=0; int ans=1; //to avoid division by 0
+    for(int x=0; x<width;x++){
+      for(int y=0; y<height;y++){
+        if (isTarget(x,y,this)){
+          xTot+=x; yTot+=y; ans++;
+        }
+      }
+    }
+    x=xTot/ans;y=yTot/ans;
+    return ans;
   }
-  private int sizeUR(int x, int y){
+  private int sizeUR(int x, int y){ //dead methods
     if (isTarget(x,y)) return 1 + sizeUR(x+1,y)
                                 //+ sizeUR(x+1,y+1)
                                 + sizeUR(x,y+1);
                                 //+ sizeUR(x-1,y+1);
     return 0;
   }
-  private int sizeDL(int x, int y){
+  private int sizeDL(int x, int y){  //dead methods
     if (isTarget(x,y)) return 1 //+ sizeDL(x+1,y-1)
                                 + sizeDL(x,y-1)
                                 //+ sizeDL(x-1,y-1)
