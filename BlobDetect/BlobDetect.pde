@@ -8,6 +8,7 @@ void setup() {
   size(320, 240);
   cam = new Capture(this, width, height, 30); //320, 240//Minimum H/W seems to be 79/2 before weird error appears
   cam.start();
+  inputs = new ArrayList<BlobInput>();
   inputs.add(new BlobInput()); inputs.add(new BlobInput());
   h=15.0;s=2.0;b=3.0;
 }
@@ -28,8 +29,9 @@ void keyPressed() {
     inputs.get(0).millis = millis();
   }
   if (key == '0'|| key == '1') {
-    inputs.get((int)key).targeting=true;
-    inputs.get((int)key).millis = millis();
+    int index=0; if(key == '1') index=1;
+    inputs.get(index).targeting=true;
+    inputs.get(index).millis = millis();
   }
 }
 
@@ -64,29 +66,30 @@ void draw() {
   scale(-1,1);
   image(cam, -width,0);
   popMatrix(); //Back to normal for drawing purposes
-  if (input1.targeting||input2.targeting){
-    drawSearching();//see through inner circle
-    if(Math.abs(millis-millis())>500){
-      if(input1.targeting) {
-        input1 = new BlobInput();
-        input1.targeting = false;
-        input1.millis=millis();
+  for(int i=0;i<inputs.size();i++){
+    if(inputs.get(i).targeting){
+      drawSearching();//see through inner circle
+      if(Math.abs(inputs.get(i).millis-millis())>500){
+        if(inputs.get(i).targeting) {
+          inputs.remove(i); inputs.add(i, new BlobInput());
+          inputs.get(i).millis=millis();
+        }
       }
-      if(input2.targeting) input2 = new BlobInput(); 
-      input1.targeting = false; input2.targeting = false; input1.millis=millis(); 
     }
   }
+  
   if(recolor)recolor();
   
-  if(!input1.targeting && Math.abs(input1.millis-millis())<1000){
-    drawAcquired(input1);
+  for(int i=0;i<inputs.size();i++){
+    if(!inputs.get(i).targeting && Math.abs(inputs.get(i).millis-millis())<1000){
+    drawAcquired(inputs.get(i));
+    }
+    inputs.get(i).size();
   }
-  if(!input2.targeting && Math.abs(input2.millis-millis())<1000){
-    drawAcquired(input2);
-  }
-  input.size();
-  fill(255,0,0);  ellipse(input.getX(),input.getY(),5,5);
+  
+  //fill(255,0,0);  ellipse(input.getX(),input.getY(),5,5);
 }
+
 boolean isTarget(int x, int y, BlobInput input){
   int data = get(x,y); float  hueDiff = Math.abs(hue(data)-input.targHue);
   return (hueDiff<h || 359-hueDiff<h )&& //accounts for hue diff accros the 360 mark

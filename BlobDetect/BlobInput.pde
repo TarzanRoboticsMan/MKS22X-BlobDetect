@@ -35,14 +35,14 @@ class BlobInput{
     return ans;
   }
   private int sizeUR(int x, int y){ //dead methods
-    if (isTarget(x,y)) return 1 + sizeUR(x+1,y)
+    if (isTarget(x,y,this)) return 1 + sizeUR(x+1,y)
                                 //+ sizeUR(x+1,y+1)
                                 + sizeUR(x,y+1);
                                 //+ sizeUR(x-1,y+1);
     return 0;
   }
   private int sizeDL(int x, int y){  //dead methods
-    if (isTarget(x,y)) return 1 //+ sizeDL(x+1,y-1)
+    if (isTarget(x,y,this)) return 1 //+ sizeDL(x+1,y-1)
                                 + sizeDL(x,y-1)
                                 //+ sizeDL(x-1,y-1)
                                 + sizeDL(x-1,y);
