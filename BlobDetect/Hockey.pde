@@ -1,6 +1,7 @@
-float diameter = 50.0;
+float diameter;
 public class Pucker{
   int x,y,lastX,lastY;
+  int xV, yV;
   BlobInput input; 
   
   public Pucker(BlobInput newInput){
@@ -10,6 +11,7 @@ public class Pucker{
   public void update(){
     lastX=x;lastY=y;
     x=(int)input.getX();y=(int)input.getY();
+    xV=x-lastX;yV=y-lastY;
   }
   public void drawPucker(){
     fill(input.targColor);

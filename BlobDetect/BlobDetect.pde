@@ -11,7 +11,10 @@ void setup() {
   inputs = new ArrayList<BlobInput>();
   inputs.add(new BlobInput()); inputs.add(new BlobInput());
   h=15.0;s=2.0;b=3.0;
+  
+  //hockey stuff
   goalH=height/4; goalW=10;
+  diameter = 50.0;
 }
 
 void adjust(int x){
@@ -23,7 +26,7 @@ void adjust(int x){
 
 void keyPressed() {
   if (key == 'a') recolor=!recolor;//System.out.println(input1.size());
-  if (key == ' ') hokceyTime=!hokceyTime;
+  if (key == ' ') hockeyTime=!hockeyTime;
   if (key == 'h' || key == 's' || key == 'b') mode = key; //Change filter value to adjust
   if (key == '[') adjust(-1); if (key == ']') adjust(1);  //Adjust value stored in mode
   if (key == '0'|| key == '1') {
@@ -86,6 +89,24 @@ void draw() {
   }
   
   if(hockeyTime){
+    fill(0,50); rect(0,0,width,height);
+    
+    for(int i=0;i<inputs.size();i++){
+      inputs.get(i).puck.update();
+      inputs.get(i).puck.drawPucker();
+      
+      float d=distance(inputs.get(i).getX(),inputs.get(i).getY());
+      if (d<diameter*3/2){
+        double xVel=speed*Math.cos(rad);
+        double yVel=speed*Math.sin(rad);
+        double xImp = inputs.get(i).puck.xV*(ballX-inputs.get(i).puck.x)/d;
+        double yImp = inputs.get(i).puck.yV*(ballY-inputs.get(i).puck.y)/d;
+        if(xVel<xImp) xVel=xImp;if(yVel<yImp) yVel=yImp;
+        rad=(float)Math.atan(yImp/xImp);
+        speed=(float)Math.sqrt(xImp*xImp+yImp*yImp);
+      }
+    }
+    
     if(speed>20) speed=20.0; //Max speed
     if(speed>0) speed*=.99; //Speed decay
     ballX += speed*Math.cos(rad);
@@ -94,6 +115,7 @@ void draw() {
     if(ballY+diameter/2>=height && Math.sin(rad)<0) rad=0-rad;
     if(ballX-diameter/2<=0 && Math.cos(rad)<0) rad=3.1415-rad;
     if(ballX-diameter/2>=width && Math.cos(rad)>0) rad=3.1415-rad;
+    drawBall();
   }
 }
 
