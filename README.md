@@ -3,7 +3,8 @@
 ### Final Project, June 2019 APCS
 ### By Coby Sontag
 
-Welcome to BlobDetect, the scrappy underdog to computer vision. The controls are simple - press keys '0' and '1' to assign the BlobInputs to the objects currently in the center of the screen. A enters visualizer, and H enters the prototype hockey mode
+Welcome to BlobDetect, the scrappy underdog to computer vision!
+The controls are simple - press keys '0' and '1' to assign the BlobInputs to the objects currently in the center of the screen. 'A' enters visualizer, and ' ' (space) enters the prototype hockey demo
 Debugging and visual controls:
 |Control|Use                                   |
 |------:|--------------------------------------|
@@ -45,3 +46,5 @@ June 4th:
   Began overhaul of adding a second input, by changing all my methods to pull inputs out of an array list.
 June 5th:
   Added automatic color updating based on x,y coordinates to the BlobInput. Each BlobInput also has its own hockey pucker now. Added in movement constraints for the hockey puck "ball"
+June 6th:
+  Just kidding :P (the project is due June 5th)
